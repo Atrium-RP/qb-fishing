@@ -24,15 +24,68 @@ local fishAnimation = function()
     Wait(math.random(Shared.CastTimeMin, Shared.CastTimeMax) * 1000)
     
     -- Minigame
-    exports['ps-ui']:Circle(function(success)
-        if success then
+    -- exports['ps-ui']:Circle(function(success)
+    --     if success then
+    --         TriggerServerEvent('hud:server:RelieveStress', 2)
+    --         TriggerServerEvent('qb-fishing:server:ReceiveFish')
+    --     else
+    --         QBCore.Functions.Notify('The fish got away!', 'error', 2500)
+    --         TriggerServerEvent('hud:server:RelieveStress', 1)
+    --     end
+    -- end, math.random(Shared.MinigameCirclesMin, Shared.MinigameCirclesMax), Shared.MinigameTime)
+
+    exports['boii_minigames']:skill_bar({
+        style = 'default', -- Style template
+        icon = 'fa-solid fa-fish', -- Any font-awesome icon; will use template icon if none is provided
+        orientation = 2, -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
+        area_size = 20, -- Size of the target area in %
+        perfect_area_size = 5, -- Size of the perfect area in %
+        speed = 0.5, -- Speed the target area moves
+        moving_icon = true, -- Toggle icon movement; true = icon will move randomly, false = icon will stay in a static position
+        icon_speed = 3, -- Speed to move the icon if icon movement enabled; this value is / 100 in the javascript side true value is 0.03
+    }, function(success) -- Game callback
+        if success == 'perfect' then
+            -- If perfect do something
+            print('skill_bar perfect')
             TriggerServerEvent('hud:server:RelieveStress', 2)
             TriggerServerEvent('qb-fishing:server:ReceiveFish')
-        else
+        elseif success == 'success' then
+            -- If success do something
+            print('skill_bar success')
+            exports['boii_minigames']:skill_bar({
+                style = 'default', -- Style template
+                icon = 'fa-solid fa-fish', -- Any font-awesome icon; will use template icon if none is provided
+                orientation = 2, -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
+                area_size = 20, -- Size of the target area in %
+                perfect_area_size = 5, -- Size of the perfect area in %
+                speed = 0.5, -- Speed the target area moves
+                moving_icon = true, -- Toggle icon movement; true = icon will move randomly, false = icon will stay in a static position
+                icon_speed = 3, -- Speed to move the icon if icon movement enabled; this value is / 100 in the javascript side true value is 0.03
+            }, function(success) -- Game callback
+                if success == 'perfect' then
+                    -- If perfect do something
+                    print('skill_bar perfect')
+                    TriggerServerEvent('hud:server:RelieveStress', 2)
+                    TriggerServerEvent('qb-fishing:server:ReceiveFish')
+                elseif success == 'success' then
+                    -- If success do something
+                    print('skill_bar success')
+                    TriggerServerEvent('hud:server:RelieveStress', 2)
+                    TriggerServerEvent('qb-fishing:server:ReceiveFish')
+                elseif success == 'failed' then
+                    -- If failed do something
+                    print('skill_bar fail')
+                    QBCore.Functions.Notify('The fish got away!', 'error', 2500)
+                    TriggerServerEvent('hud:server:RelieveStress', 1)
+                end
+            end)
+        elseif success == 'failed' then
+            -- If failed do something
+            print('skill_bar fail')
             QBCore.Functions.Notify('The fish got away!', 'error', 2500)
             TriggerServerEvent('hud:server:RelieveStress', 1)
         end
-    end, math.random(Shared.MinigameCirclesMin, Shared.MinigameCirclesMax), Shared.MinigameTime)
+    end)
 
     -- Finishing up
     ClearPedTasks(ped)
