@@ -95,6 +95,9 @@ RegisterNetEvent('qb-fishing:server:ReceiveFish', function(zone)
         -- New rep system
         -- Add 1 rep point for each fishing success.
         local newrep = Player.PlayerData.metadata["jobrep"]
+        if not newrep.fishing then
+            newrep.fishing = 0
+        end
         newrep.fishing = newrep.fishing + xPoint
         Player.Functions.SetMetaData("jobrep", newrep)
 
