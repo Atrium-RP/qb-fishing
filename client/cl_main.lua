@@ -128,6 +128,24 @@ RegisterNetEvent('qb-fishing:client:FishingRod', function()
         return
     end
 
+    -- Check if has level required for this type of fishing zone
+    local playerRep = QBCore.Functions.GetPlayerData().metadata["jobrep"]
+    --local playerRep = Player.PlayerData.metadata["jobrep"]
+    local fishingRep = playerRep.fishing
+    -- if Shared.FishingZones[zoneFish].zoneType == 'lake' then
+    --     QBCore.Functions.Notify('GG..', 'primary', 2500)
+    --     QBCore.Functions.Notify('Rep: '..fishingRep, 'primary', 2500)
+    --     return
+    print(zoneFish)
+    print(Shared.FishingZones[zoneFish].zoneType)
+    if Shared.FishingZones[zoneFish].zoneType == 'river' and fishingRep <= 24 then
+        QBCore.Functions.Notify('Vous n\'êtes pas suffisamment expérimenté pour pêcher ici..', 'primary', 2500)
+        return
+    elseif Shared.FishingZones[zoneFish].zoneType == 'ocean' and fishingRep <= 74 then
+        QBCore.Functions.Notify('Vous n\'êtes pas suffisamment expérimenté pour pêcher ici..', 'primary', 2500)
+        return
+    end
+
     -- Check if player has fishingbait
     local hasItem = QBCore.Functions.HasItem("fishingbait")
     if hasItem then
@@ -149,6 +167,7 @@ CreateThread(function()
                 name = "FishingZones"..k,
                 minZ = v.minZ,
                 maxZ = v.maxZ,
+                data = k,
                 debugPoly = false
             })
         else -- PolyZone
@@ -156,6 +175,7 @@ CreateThread(function()
                 name = "FishingZones"..k,
                 minZ = v.minZ,
                 maxZ = v.maxZ,
+                data = k,
                 debugGrid = false,
             })
         end
@@ -172,7 +192,7 @@ CreateThread(function()
         if isPointInside then
             exports['qb-core']:DrawText('Fishing', 'left')
             canFish = true
-            zoneFish = zone.id
+            zoneFish = zone.data
         else
             exports['qb-core']:HideText()
             canFish = false
