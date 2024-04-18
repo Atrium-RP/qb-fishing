@@ -1,6 +1,7 @@
 QBCore = exports['qb-core']:GetCoreObject()
 
 local canFish = false
+local zoneFish = 0
 local isFishing = false
 local fishingRod
 
@@ -37,7 +38,7 @@ local fishAnimation = function()
     exports['boii_minigames']:skill_bar({
         style = 'default', -- Style template
         icon = 'fa-solid fa-fish', -- Any font-awesome icon; will use template icon if none is provided
-        orientation = 2, -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
+        orientation = math.random(1, 2), -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
         area_size = 20, -- Size of the target area in %
         perfect_area_size = 5, -- Size of the perfect area in %
         speed = 0.5, -- Speed the target area moves
@@ -46,16 +47,16 @@ local fishAnimation = function()
     }, function(success) -- Game callback
         if success == 'perfect' then
             -- If perfect do something
-            print('skill_bar perfect')
             TriggerServerEvent('hud:server:RelieveStress', 2)
-            TriggerServerEvent('qb-fishing:server:ReceiveFish')
+            TriggerServerEvent('qb-fishing:server:ReceiveFish', zoneFish)
+            ClearPedTasks(ped)
+            DeleteObject(fishingRod)
         elseif success == 'success' then
             -- If success do something
-            print('skill_bar success')
             exports['boii_minigames']:skill_bar({
                 style = 'default', -- Style template
                 icon = 'fa-solid fa-fish', -- Any font-awesome icon; will use template icon if none is provided
-                orientation = 2, -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
+                orientation = math.random(1, 2), -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
                 area_size = 20, -- Size of the target area in %
                 perfect_area_size = 5, -- Size of the perfect area in %
                 speed = 0.5, -- Speed the target area moves
@@ -64,32 +65,36 @@ local fishAnimation = function()
             }, function(success) -- Game callback
                 if success == 'perfect' then
                     -- If perfect do something
-                    print('skill_bar perfect')
                     TriggerServerEvent('hud:server:RelieveStress', 2)
-                    TriggerServerEvent('qb-fishing:server:ReceiveFish')
+                    TriggerServerEvent('qb-fishing:server:ReceiveFish', zoneFish)
+                    ClearPedTasks(ped)
+                    DeleteObject(fishingRod)
                 elseif success == 'success' then
                     -- If success do something
-                    print('skill_bar success')
                     TriggerServerEvent('hud:server:RelieveStress', 2)
-                    TriggerServerEvent('qb-fishing:server:ReceiveFish')
+                    TriggerServerEvent('qb-fishing:server:ReceiveFish', zoneFish)
+                    ClearPedTasks(ped)
+                    DeleteObject(fishingRod)
                 elseif success == 'failed' then
                     -- If failed do something
-                    print('skill_bar fail')
                     QBCore.Functions.Notify('The fish got away!', 'error', 2500)
                     TriggerServerEvent('hud:server:RelieveStress', 1)
+                    ClearPedTasks(ped)
+                    DeleteObject(fishingRod)
                 end
             end)
         elseif success == 'failed' then
             -- If failed do something
-            print('skill_bar fail')
             QBCore.Functions.Notify('The fish got away!', 'error', 2500)
             TriggerServerEvent('hud:server:RelieveStress', 1)
+            ClearPedTasks(ped)
+            DeleteObject(fishingRod)
         end
     end)
 
     -- Finishing up
-    ClearPedTasks(ped)
-    DeleteObject(fishingRod)
+    -- ClearPedTasks(ped)
+    -- DeleteObject(fishingRod)
     isFishing = false
 end
 
@@ -167,9 +172,11 @@ CreateThread(function()
         if isPointInside then
             exports['qb-core']:DrawText('Fishing', 'left')
             canFish = true
+            zoneFish = zone.id
         else
             exports['qb-core']:HideText()
             canFish = false
+            zoneFish = 0
         end
     end)
 end)

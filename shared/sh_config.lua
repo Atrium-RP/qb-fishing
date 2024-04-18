@@ -7,7 +7,7 @@ Shared.MinigameCirclesMin = 2 -- Minigame: Minimum amount of circles
 Shared.MinigameCirclesMax = 3 -- Minigame: Maximum amount of circles
 Shared.MinigameTime = 20 -- Minigame: Amount of time in seconds
 
-Shared.SellLocation = vector4(1348.36, 4317.34, 37.04, 83.71)
+Shared.SellLocation = vector4(-313.2, -2772.26, 4.0, 0.95) --vector4(1348.36, 4317.34, 37.04, 83.71)
 
 Shared.FishingZones = {
     [1] = { -- Example of a BoxZone (box = true)
@@ -18,6 +18,7 @@ Shared.FishingZones = {
         minZ = 33.78,
         maxZ = 36.98,
         box = true,
+        zoneType = 'ocean',
     },
     [2] = { -- Example of a PolyZone (box = false)
         points = {
@@ -48,7 +49,8 @@ Shared.FishingZones = {
         },
         minZ = 29.43,
         maxZ = 32.6,
-        box = false
+        box = false,
+        zoneType = 'river'
     },
     [3] = { -- Example of a PolyZone (box = false) -- MIRROR PARK LAKE
         points = {
@@ -83,6 +85,7 @@ Shared.FishingZones = {
         },
         minZ = 56.010517730712,
         maxZ = 58.70890045166,
-        box = false
+        box = false,
+        zoneType = 'lake'
     }
 }
