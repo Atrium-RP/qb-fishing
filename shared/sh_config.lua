@@ -7,7 +7,31 @@ Shared.MinigameCirclesMin = 2 -- Minigame: Minimum amount of circles
 Shared.MinigameCirclesMax = 3 -- Minigame: Maximum amount of circles
 Shared.MinigameTime = 20 -- Minigame: Amount of time in seconds
 
-Shared.SellLocation = vector4(-313.2, -2772.26, 4.0, 0.95) --vector4(1348.36, 4317.34, 37.04, 83.71)
+Shared.SellLocation = vector4(-1038.3, -1397.08, 4.55, 76.16) --vector4(-313.2, -2772.26, 4.0, 0.95) --vector4(1348.36, 4317.34, 37.04, 83.71)
+
+Shared.fishByZone = {
+    ['lake'] = {
+        [1] = 'frog',
+        [2] = 'carp',
+        [3] = 'crayfish',
+        [4] = 'catfish',
+        [5] = 'snakehead',
+    },
+    ['river'] = {
+        [1] = 'largemouthbass',
+        [2] = 'pike',
+        [3] = 'yellowperch',
+        [4] = 'goldentrout',
+        [5] = 'salmon',
+    },
+    ['ocean'] = {
+        [1] = 'bass',
+        [2] = 'anchovy',
+        [3] = 'snapper',
+        [4] = 'tuna',
+        [5] = 'coelacanth',
+    }
+}
 
 Shared.FishingZones = {
     -- [1] = { -- Example of a BoxZone (box = true)
@@ -679,5 +703,65 @@ Shared.FishingZones = {
         maxZ = 44.70890045166,
         box = false,
         zoneType = 'lake'
-    }
+    },
+    [10] = { -- Near Fete foraine
+        coords = vector3(-2162.81, -1570.24, 55.35),
+        heading = 45,
+        length = 150.0,
+        width = 150.0,
+        minZ = -3.0,
+        maxZ = 10.0,
+        box = true,
+        zoneType = 'ocean',
+    },
+    [11] = { -- 
+        coords = vector3(-3781.53, 965.87, -71.88),
+        heading = 356,
+        length = 150.0,
+        width = 150.0,
+        minZ = -3.0,
+        maxZ = 10.0,
+        box = true,
+        zoneType = 'ocean',
+    },
+    [12] = { -- 
+        coords = vector3(-1835.16, 5787.92, -4.94),
+        heading = 296,
+        length = 150.0,
+        width = 150.0,
+        minZ = -3.0,
+        maxZ = 10.0,
+        box = true,
+        zoneType = 'ocean',
+    },
+    [13] = { -- 
+        coords = vector3(-690.02, 7045.83, 17.01),
+        heading = 309,
+        length = 150.0,
+        width = 150.0,
+        minZ = -3.0,
+        maxZ = 10.0,
+        box = true,
+        zoneType = 'ocean',
+    },
+    [14] = { -- 
+        coords = vector3(4199.3, 4436.67, 9.47),
+        heading = 264,
+        length = 150.0,
+        width = 150.0,
+        minZ = -3.0,
+        maxZ = 10.0,
+        box = true,
+        zoneType = 'ocean',
+    },
+    [15] = { -- 
+        coords = vector3(5374.48, -4688.21, 19.38),
+        heading = 264,
+        length = 150.0,
+        width = 150.0,
+        minZ = -3.0,
+        maxZ = 10.0,
+        box = true,
+        zoneType = 'ocean',
+    },
 }

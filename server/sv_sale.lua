@@ -12,21 +12,26 @@ local priceTable = {
     -- whale = 450,
     -- whale2 = 500
 
-    frog = 1,
-    carp = 2,
-    crayfish = 3,
-    catfish = 4,
-    snakehead = 5,
-    largemouthbass = 11,
-    pike = 12,
-    yellowperch = 13,
-    goldentrout = 14,
-    salmon = 15,
-    bass = 21,
-    anchovy = 22,
-    snapper = 23,
-    tuna = 24,
-    coelacanth = 25
+    -- Lake
+    frog = 2,
+    carp = 3,
+    crayfish = 5,
+    catfish = 5,
+    snakehead = 8,
+
+    -- River
+    largemouthbass = 3,
+    pike = 4,
+    yellowperch = 6,
+    goldentrout = 6,
+    salmon = 9,
+    
+    -- Ocean
+    bass = 4,
+    anchovy = 5,
+    snapper = 7,
+    tuna = 7,
+    coelacanth = 10
 }
 
 RegisterNetEvent('qb-fishing:server:SellFish', function(fish, amount)
@@ -59,7 +64,7 @@ RegisterNetEvent('qb-fishing:server:SellFish', function(fish, amount)
             TriggerEvent('qb-log:server:CreateLog', 'fishing', 'Sale Fish', 'lightgreen', "**"..Player.PlayerData.name .. " (citizenid: "..Player.PlayerData.citizenid.." | id: "..Player.PlayerData.source..")** received $"..amount * priceTable[item.name].." for selling "..amount.."x "..QBCore.Shared.Items[item.name].label)
 
             -- Notification
-            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'You received $'..amount * priceTable[item.name]..' for selling your '..QBCore.Shared.Items[item.name].label, 'success', 2500)
+            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'Vous avez reçu '..amount * priceTable[item.name]..'$ pour avoir vendu vos '..QBCore.Shared.Items[item.name].label, 'success', 2500)
         end
     end
 end)

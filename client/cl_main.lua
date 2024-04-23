@@ -39,8 +39,8 @@ local fishAnimation = function()
         style = 'default', -- Style template
         icon = 'fa-solid fa-fish', -- Any font-awesome icon; will use template icon if none is provided
         orientation = math.random(1, 2), -- Orientation of the bar; 1 = horizontal centre, 2 = vertical right.
-        area_size = 20, -- Size of the target area in %
-        perfect_area_size = 5, -- Size of the perfect area in %
+        area_size = math.random(16, 20), -- Size of the target area in %
+        perfect_area_size = 2, -- Size of the perfect area in %
         speed = 0.5, -- Speed the target area moves
         moving_icon = true, -- Toggle icon movement; true = icon will move randomly, false = icon will stay in a static position
         icon_speed = 3, -- Speed to move the icon if icon movement enabled; this value is / 100 in the javascript side true value is 0.03
@@ -65,28 +65,28 @@ local fishAnimation = function()
             }, function(success) -- Game callback
                 if success == 'perfect' then
                     -- If perfect do something
-                    TriggerServerEvent('hud:server:RelieveStress', 2)
+                    TriggerServerEvent('hud:server:RelieveStress', 1)
                     TriggerServerEvent('qb-fishing:server:ReceiveFish', zoneFish)
                     ClearPedTasks(ped)
                     DeleteObject(fishingRod)
                 elseif success == 'success' then
                     -- If success do something
-                    TriggerServerEvent('hud:server:RelieveStress', 2)
+                    TriggerServerEvent('hud:server:RelieveStress', 1)
                     TriggerServerEvent('qb-fishing:server:ReceiveFish', zoneFish)
                     ClearPedTasks(ped)
                     DeleteObject(fishingRod)
                 elseif success == 'failed' then
                     -- If failed do something
-                    QBCore.Functions.Notify('The fish got away!', 'error', 2500)
-                    TriggerServerEvent('hud:server:RelieveStress', 1)
+                    QBCore.Functions.Notify('Le poisson s\'est échapé!', 'error', 2500)
+                    --TriggerServerEvent('hud:server:RelieveStress', 1)
                     ClearPedTasks(ped)
                     DeleteObject(fishingRod)
                 end
             end)
         elseif success == 'failed' then
             -- If failed do something
-            QBCore.Functions.Notify('The fish got away!', 'error', 2500)
-            TriggerServerEvent('hud:server:RelieveStress', 1)
+            QBCore.Functions.Notify('Le poisson s\'est échapé!', 'error', 2500)
+            --TriggerServerEvent('hud:server:RelieveStress', 1)
             ClearPedTasks(ped)
             DeleteObject(fishingRod)
         end
@@ -124,20 +124,22 @@ end
 RegisterNetEvent('qb-fishing:client:FishingRod', function()
     -- Check if inside fishing zone
     if not canFish then
-        QBCore.Functions.Notify('You can\'t fish over here..', 'error', 2500)
+        QBCore.Functions.Notify('Vous ne pouvez pas pêcher ici..', 'error', 2500)
         return
     end
 
     -- Check if has level required for this type of fishing zone
     local playerRep = QBCore.Functions.GetPlayerData().metadata["jobrep"]
     --local playerRep = Player.PlayerData.metadata["jobrep"]
+    if not playerRep.fishing then
+        playerRep.fishing = 0
+    end
     local fishingRep = playerRep.fishing
+    
     -- if Shared.FishingZones[zoneFish].zoneType == 'lake' then
     --     QBCore.Functions.Notify('GG..', 'primary', 2500)
     --     QBCore.Functions.Notify('Rep: '..fishingRep, 'primary', 2500)
     --     return
-    print(zoneFish)
-    print(Shared.FishingZones[zoneFish].zoneType)
     if Shared.FishingZones[zoneFish].zoneType == 'river' and fishingRep <= 24 then
         QBCore.Functions.Notify('Vous n\'êtes pas suffisamment expérimenté pour pêcher ici..', 'primary', 2500)
         return
@@ -152,7 +154,7 @@ RegisterNetEvent('qb-fishing:client:FishingRod', function()
         -- Start Fishing
         startFishing()
     else
-        QBCore.Functions.Notify('You need both a fishing rod and bait to start fishing..', 'error', 2500)
+        QBCore.Functions.Notify('Vous avez besoin d\'une canne à pêche et d\'appâts pour pêcher...', 'error', 2500)
     end
 end)
 
@@ -190,7 +192,7 @@ CreateThread(function()
     -- Enter/Exit Fishing Zone
     fishingCombo:onPlayerInOut(function(isPointInside, point, zone)
         if isPointInside then
-            exports['qb-core']:DrawText('Fishing', 'left')
+            exports['qb-core']:DrawText('Zone de pêche', 'left')
             canFish = true
             zoneFish = zone.data
         else

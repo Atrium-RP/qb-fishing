@@ -95,6 +95,7 @@ RegisterNetEvent('qb-fishing:server:ReceiveFish', function(zone)
         -- New rep system
         -- Add 1 rep point for each fishing success.
         local newrep = Player.PlayerData.metadata["jobrep"]
+        -- creating fishing jobrep if not existing :
         if not newrep.fishing then
             newrep.fishing = 0
         end
@@ -104,7 +105,7 @@ RegisterNetEvent('qb-fishing:server:ReceiveFish', function(zone)
         TriggerClientEvent('inventory:client:ItemBox', Player.PlayerData.source, QBCore.Shared.Items[item], 'add', 1)
         TriggerEvent('qb-log:server:CreateLog', 'fishing', 'Received Fish', 'blue', "**"..Player.PlayerData.name .. " (citizenid: "..Player.PlayerData.citizenid.." | id: "..Player.PlayerData.source..")** received 1x "..QBCore.Shared.Items[item].label)
     else
-        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'Your inventory is full already..', 'error', 2500)
+        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'Votre inventaire est plein..', 'error', 2500)
     end
 end)
 
