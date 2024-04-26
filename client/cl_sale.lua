@@ -239,6 +239,7 @@ RegisterNetEvent('qb-fishing:client:AskQuestions', function()
             icon = 'fas fa-angle-right',
             params = {
                 event = "qb-fishing:client:ZoneInformation",
+                args = 'river'
             }
         },
         {
@@ -248,6 +249,7 @@ RegisterNetEvent('qb-fishing:client:AskQuestions', function()
             icon = 'fas fa-angle-right',
             params = {
                 event = "qb-fishing:client:ZoneInformation",
+                args = 'ocean'
             }
         },
         {
